@@ -1,392 +1,978 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>有限会社 渡辺レッカー</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            navy:        '#1A1A2E',
-            'navy-dark': '#0F0F1E',
-            orange:      '#F57C00',
-            'orange-hover': '#FF9800',
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>有限会社 渡辺レッカー</title>
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              navy: "#1A1A2E",
+              "navy-dark": "#0F0F1E",
+              orange: "#F57C00",
+              "orange-hover": "#FF9800",
+            },
+            fontFamily: { sans: ['"Noto Sans JP"', "sans-serif"] },
           },
-          fontFamily: { sans: ['"Noto Sans JP"', 'sans-serif'] },
-        }
+        },
+      };
+    </script>
+    <style>
+      .page {
+        display: none;
       }
-    }
-  </script>
-  <style>
-    .page { display: none; }
-    .page.visible { display: block; }
-    .hero-bg {
-      background: #1A1A2E url('https://placehold.jp/3d4070/ffffff/1600x900.png?text=crane+work+image') center/cover no-repeat;
-    }
-    .nav-btn.active { color: #F57C00; background: rgba(245,124,0,0.15); }
-    .spec-table tr + tr { border-top: 1px solid #E0E0E0; }
-  </style>
-</head>
-<body class="font-sans text-gray-800 bg-white min-h-screen">
-
-<!-- ══ HEADER ══ -->
-<header class="fixed top-0 left-0 right-0 z-50 bg-navy h-14 flex items-center justify-between px-4 md:px-10">
-  <div class="text-white font-bold text-sm md:text-base tracking-wide cursor-pointer select-none shrink-0" onclick="showPage('home')">
-    有限会社 渡辺レッカー
-  </div>
-  <!-- SP: ハンバーガー -->
-  <button id="menu-toggle" class="md:hidden text-slate-300 p-1" onclick="toggleMenu()">
-    <svg id="icon-open"  width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6"  x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-    <svg id="icon-close" class="hidden" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
-  </button>
-  <!-- PC: インラインナビ -->
-  <nav class="hidden md:flex gap-1">
-    <button id="nav-home"    class="nav-btn active  text-slate-400 hover:text-white font-medium text-sm px-4 py-2 rounded transition-all" onclick="showPage('home')">ホーム</button>
-    <button id="nav-fleet"   class="nav-btn text-slate-400 hover:text-white font-medium text-sm px-4 py-2 rounded transition-all" onclick="showPage('fleet')">保有機種</button>
-    <button id="nav-about"   class="nav-btn text-slate-400 hover:text-white font-medium text-sm px-4 py-2 rounded transition-all" onclick="showPage('about')">会社概要</button>
-    <button id="nav-contact" class="nav-btn text-slate-400 hover:text-white font-medium text-sm px-4 py-2 rounded transition-all" onclick="showPage('contact')">お問い合わせ</button>
-  </nav>
-</header>
-
-<!-- SP ドロワー -->
-<div id="sp-menu" class="hidden fixed top-14 left-0 right-0 z-40 bg-navy border-t border-slate-700 md:hidden">
-  <div class="flex flex-col">
-    <button class="text-slate-300 text-sm font-medium px-6 py-4 text-left border-b border-slate-700 hover:text-orange transition-colors" onclick="showPage('home');closeMenu()">ホーム</button>
-    <button class="text-slate-300 text-sm font-medium px-6 py-4 text-left border-b border-slate-700 hover:text-orange transition-colors" onclick="showPage('fleet');closeMenu()">保有機種</button>
-    <button class="text-slate-300 text-sm font-medium px-6 py-4 text-left border-b border-slate-700 hover:text-orange transition-colors" onclick="showPage('about');closeMenu()">会社概要</button>
-    <button class="text-slate-300 text-sm font-medium px-6 py-4 text-left hover:text-orange transition-colors" onclick="showPage('contact');closeMenu()">お問い合わせ</button>
-  </div>
-</div>
-
-<!-- ══════════ HOME ══════════ -->
-<div id="page-home" class="page visible">
-
-  <section class="hero-bg relative min-h-screen flex flex-col justify-center items-center text-center px-5 pt-20 pb-14 overflow-hidden">
-    <div class="absolute inset-0 bg-navy/75"></div>
-    <div class="relative z-10 w-full max-w-2xl mx-auto">
-      <p class="text-orange text-xs font-bold tracking-widest uppercase mb-5">有限会社 渡辺レッカー</p>
-      <h1 class="text-white font-black leading-tight mb-6 text-3xl md:text-5xl">
-        重機・クレーン作業は<br class="hidden md:block"/>お任せください。
-      </h1>
-      <p class="text-slate-400 text-sm md:text-base leading-loose mx-auto mb-10">
-        静岡県・静岡市駿河区を中心に、建設現場の揚重作業から重量物の搬入・搬出まで、安全・迅速に対応します。
-      </p>
-      <button onclick="showPage('contact')" class="bg-orange hover:bg-orange-hover text-white font-bold px-8 py-4 rounded transition-colors">
-        お問い合わせはこちら
+      .page.visible {
+        display: block;
+      }
+      .hero-bg {
+        background: #1a1a2e
+          url("https://placehold.jp/3d4070/ffffff/1600x900.png?text=crane+work+image")
+          center/cover no-repeat;
+      }
+      .nav-btn.active {
+        color: #f57c00;
+        background: rgba(245, 124, 0, 0.15);
+      }
+      .spec-table tr + tr {
+        border-top: 1px solid #e0e0e0;
+      }
+    </style>
+  </head>
+  <body class="font-sans text-gray-800 bg-white min-h-screen">
+    <!-- ══ HEADER ══ -->
+    <header
+      class="fixed top-0 left-0 right-0 z-50 bg-navy h-14 flex items-center justify-between px-4 md:px-10"
+    >
+      <div
+        class="text-white font-bold text-sm md:text-base tracking-wide cursor-pointer select-none shrink-0"
+        onclick="showPage('home')"
+      >
+        有限会社 渡辺レッカー
+      </div>
+      <!-- SP: ハンバーガー -->
+      <button
+        id="menu-toggle"
+        class="md:hidden text-slate-300 p-1"
+        onclick="toggleMenu()"
+      >
+        <svg
+          id="icon-open"
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        >
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+        <svg
+          id="icon-close"
+          class="hidden"
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        >
+          <line x1="4" y1="4" x2="20" y2="20" />
+          <line x1="20" y1="4" x2="4" y2="20" />
+        </svg>
       </button>
-    </div>
-  </section>
+      <!-- PC: インラインナビ -->
+      <nav class="hidden md:flex gap-1">
+        <button
+          id="nav-home"
+          class="nav-btn active text-slate-400 hover:text-white font-medium text-sm px-4 py-2 rounded transition-all"
+          onclick="showPage('home')"
+        >
+          ホーム
+        </button>
+        <button
+          id="nav-fleet"
+          class="nav-btn text-slate-400 hover:text-white font-medium text-sm px-4 py-2 rounded transition-all"
+          onclick="showPage('fleet')"
+        >
+          保有機種
+        </button>
+        <button
+          id="nav-about"
+          class="nav-btn text-slate-400 hover:text-white font-medium text-sm px-4 py-2 rounded transition-all"
+          onclick="showPage('about')"
+        >
+          会社概要
+        </button>
+        <button
+          id="nav-contact"
+          class="nav-btn text-slate-400 hover:text-white font-medium text-sm px-4 py-2 rounded transition-all"
+          onclick="showPage('contact')"
+        >
+          お問い合わせ
+        </button>
+      </nav>
+    </header>
 
-  <div class="grid grid-cols-1 md:grid-cols-3 border-b border-gray-200">
-    <div class="px-7 py-10 border-b md:border-b-0 md:border-r border-gray-200">
-      <div class="text-3xl mb-4">🏗️</div>
-      <h3 class="text-navy font-bold text-base mb-2">建設現場の揚重</h3>
-      <p class="text-gray-500 text-sm leading-relaxed">鉄骨・資材の吊り上げから高所への搬入まで、豊富な現場経験でサポートします。</p>
-    </div>
-    <div class="px-7 py-10 border-b md:border-b-0 md:border-r border-gray-200">
-      <div class="text-3xl mb-4">⚙️</div>
-      <h3 class="text-navy font-bold text-base mb-2">重量物の搬入・搬出</h3>
-      <p class="text-gray-500 text-sm leading-relaxed">工場設備・産業機械など大型重量物の移設・据え付けに対応しています。</p>
-    </div>
-    <div class="px-7 py-10">
-      <div class="text-3xl mb-4">📋</div>
-      <h3 class="text-navy font-bold text-base mb-2">現場調査・ご提案</h3>
-      <p class="text-gray-500 text-sm leading-relaxed">事前の現地調査を行い、安全で最適な作業計画をご提案します。</p>
-    </div>
-  </div>
-
-  <div class="bg-navy text-center py-14 px-5">
-    <p class="text-slate-400 text-sm leading-loose">お急ぎのご依頼もお気軽にご連絡ください</p>
-    <strong class="text-orange text-2xl block my-2">TEL: 054-259-5180</strong>
-    <p class="text-slate-400 text-sm">受付時間：平日 8:00〜17:00（緊急対応については別途ご相談）</p>
-  </div>
-
-  <div class="max-w-5xl mx-auto px-5 md:px-10 py-16">
-    <p class="text-orange text-xs font-bold tracking-widest uppercase mb-3">About</p>
-    <h2 class="text-navy font-black text-2xl md:text-3xl leading-snug mb-8">地域に根ざした<br/>クレーン・重機サービス</h2>
-    <p class="text-gray-500 text-sm leading-loose max-w-2xl">
-      有限会社渡辺レッカーは、静岡県を拠点にクレーン作業・重機オペレーションを専門とする会社です。設立以来、地域の建設・工業現場を支えてきた実績と、安全を最優先にした作業体制でご信頼いただいています。どんな案件も現場確認から丁寧に対応いたします。
-    </p>
-  </div>
-
-</div>
-
-<!-- ══════════ FLEET ══════════ -->
-<div id="page-fleet" class="page">
-
-  <div class="bg-navy text-center pt-24 pb-12 px-5">
-    <h2 class="text-white font-black text-3xl md:text-4xl mb-3">保有機種一覧</h2>
-    <p class="text-slate-400 text-sm">各機種のスペックをご確認のうえ、ご要望に合った機種をお選びください。</p>
-  </div>
-
-  <div class="max-w-5xl mx-auto flex flex-col gap-px bg-gray-200">
-
-    <!-- カードテンプレート: SP=縦積み, PC=左右2列 -->
-    <!-- 60t -->
-    <div class="bg-white hover:bg-orange-50 transition-colors px-5 md:px-10 py-5 flex flex-col md:grid md:grid-cols-[180px_1fr] gap-4 md:gap-10 items-start">
-      <div class="shrink-0">
-        <span class="inline-block text-orange border border-orange text-xs font-bold tracking-wider px-2 py-0.5 rounded-sm mb-3">ラフテレーンクレーン</span>
-        <h3 class="text-navy font-bold text-lg mb-1">60tクレーン</h3>
-        <p class="text-gray-400 text-xs">××年式</p>
-      </div>
-      <table class="spec-table w-full text-sm border-collapse">
-        <tr><td class="text-gray-400 w-28 py-1.5 pr-4 font-medium">最大吊上荷重</td><td class="font-bold text-gray-800 py-1.5">60.0t</td></tr>
-        <tr><td class="text-gray-400 py-1.5 pr-4 font-medium">最大作業半径</td><td class="font-bold text-gray-800 py-1.5">XX m</td></tr>
-        <tr><td class="text-gray-400 py-1.5 pr-4 font-medium">ブーム長</td><td class="font-bold text-gray-800 py-1.5">XX〜XX m</td></tr>
-        <tr><td class="text-gray-400 py-1.5 pr-4 font-medium">アウトリガー</td><td class="font-bold text-gray-800 py-1.5">最大張出 X.X m</td></tr>
-      </table>
-    </div>
-
-    <!-- 35t -->
-    <div class="bg-white hover:bg-orange-50 transition-colors px-5 md:px-10 py-5 flex flex-col md:grid md:grid-cols-[180px_1fr] gap-4 md:gap-10 items-start">
-      <div class="shrink-0">
-        <span class="inline-block text-orange border border-orange text-xs font-bold tracking-wider px-2 py-0.5 rounded-sm mb-3">ラフテレーンクレーン</span>
-        <h3 class="text-navy font-bold text-lg mb-1">35tクレーン</h3>
-        <p class="text-gray-400 text-xs">××年式</p>
-      </div>
-      <table class="spec-table w-full text-sm border-collapse">
-        <tr><td class="text-gray-400 w-28 py-1.5 pr-4 font-medium">最大吊上荷重</td><td class="font-bold text-gray-800 py-1.5">35.0t</td></tr>
-        <tr><td class="text-gray-400 py-1.5 pr-4 font-medium">最大作業半径</td><td class="font-bold text-gray-800 py-1.5">XX m</td></tr>
-        <tr><td class="text-gray-400 py-1.5 pr-4 font-medium">ブーム長</td><td class="font-bold text-gray-800 py-1.5">XX〜XX m</td></tr>
-        <tr><td class="text-gray-400 py-1.5 pr-4 font-medium">アウトリガー</td><td class="font-bold text-gray-800 py-1.5">最大張出 X.X m</td></tr>
-      </table>
-    </div>
-
-    <!-- 20t -->
-    <div class="bg-white hover:bg-orange-50 transition-colors px-5 md:px-10 py-5 flex flex-col md:grid md:grid-cols-[180px_1fr] gap-4 md:gap-10 items-start">
-      <div class="shrink-0">
-        <span class="inline-block text-orange border border-orange text-xs font-bold tracking-wider px-2 py-0.5 rounded-sm mb-3">ラフテレーンクレーン</span>
-        <h3 class="text-navy font-bold text-lg mb-1">20tクレーン</h3>
-        <p class="text-gray-400 text-xs">××年式</p>
-      </div>
-      <table class="spec-table w-full text-sm border-collapse">
-        <tr><td class="text-gray-400 w-28 py-1.5 pr-4 font-medium">最大吊上荷重</td><td class="font-bold text-gray-800 py-1.5">20.0t</td></tr>
-        <tr><td class="text-gray-400 py-1.5 pr-4 font-medium">最大作業半径</td><td class="font-bold text-gray-800 py-1.5">XX m</td></tr>
-        <tr><td class="text-gray-400 py-1.5 pr-4 font-medium">ブーム長</td><td class="font-bold text-gray-800 py-1.5">XX〜XX m</td></tr>
-        <tr><td class="text-gray-400 py-1.5 pr-4 font-medium">アウトリガー</td><td class="font-bold text-gray-800 py-1.5">最大張出 X.X m</td></tr>
-      </table>
-    </div>
-
-    <!-- 13t -->
-    <div class="bg-white hover:bg-orange-50 transition-colors px-5 md:px-10 py-5 flex flex-col md:grid md:grid-cols-[180px_1fr] gap-4 md:gap-10 items-start">
-      <div class="shrink-0">
-        <span class="inline-block text-orange border border-orange text-xs font-bold tracking-wider px-2 py-0.5 rounded-sm mb-3">ラフテレーンクレーン</span>
-        <h3 class="text-navy font-bold text-lg mb-1">13tクレーン</h3>
-        <p class="text-gray-400 text-xs">××年式</p>
-      </div>
-      <table class="spec-table w-full text-sm border-collapse">
-        <tr><td class="text-gray-400 w-28 py-1.5 pr-4 font-medium">最大吊上荷重</td><td class="font-bold text-gray-800 py-1.5">13.0t</td></tr>
-        <tr><td class="text-gray-400 py-1.5 pr-4 font-medium">最大作業半径</td><td class="font-bold text-gray-800 py-1.5">XX m</td></tr>
-        <tr><td class="text-gray-400 py-1.5 pr-4 font-medium">ブーム長</td><td class="font-bold text-gray-800 py-1.5">XX〜XX m</td></tr>
-        <tr><td class="text-gray-400 py-1.5 pr-4 font-medium">アウトリガー</td><td class="font-bold text-gray-800 py-1.5">最大張出 X.X m</td></tr>
-      </table>
-    </div>
-
-  </div>
-
-  <div class="bg-gray-50 text-center py-8 px-5 text-sm text-gray-400 leading-loose">
-    ※ スペックは代表値です。詳細は機種により異なります。<br/>
-    作業内容・現場条件によって使用機種をご提案しますので、まずはお問い合わせください。
-  </div>
-
-</div>
-
-<!-- ══════════ CONTACT ══════════ -->
-<div id="page-contact" class="page">
-
-  <div class="bg-navy text-center pt-24 pb-12 px-5">
-    <h2 class="text-white font-black text-3xl md:text-4xl mb-3">お問い合わせ</h2>
-    <p class="text-slate-400 text-sm">作業のご依頼・お見積りのご相談はこちらからどうぞ。</p>
-  </div>
-
-  <div class="max-w-lg mx-auto px-5 py-12">
-    <h3 class="text-navy font-bold text-sm mb-5 pb-3 border-b-2 border-orange">会社情報・ご連絡先</h3>
-
-    <div class="flex gap-4 mb-5 items-start">
-      <span class="text-orange shrink-0 mt-0.5"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3H8a2 2 0 0 0-2 2v2h12V5a2 2 0 0 0-2-2z"/></svg></span>
-      <div class="text-sm leading-relaxed"><strong class="block text-xs text-gray-400 font-medium mb-0.5">会社名</strong>有限会社 渡辺レッカー</div>
-    </div>
-    <div class="flex gap-4 mb-5 items-start">
-      <span class="text-orange shrink-0 mt-0.5"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></span>
-      <div class="text-sm leading-relaxed"><strong class="block text-xs text-gray-400 font-medium mb-0.5">所在地</strong>〒421-0101<br/>静岡県静岡市駿河区向敷地1丁目3番22号</div>
-    </div>
-    <div class="flex gap-4 mb-5 items-start">
-      <span class="text-orange shrink-0 mt-0.5"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.07 11.5 19.79 19.79 0 0 1 1 2.18 2 2 0 0 1 3 0h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 7.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 14.92z" transform="translate(1 1)"/></svg></span>
-      <div class="text-sm leading-relaxed"><strong class="block text-xs text-gray-400 font-medium mb-0.5">電話番号</strong>054-259-5180</div>
-    </div>
-    <div class="flex gap-4 mb-5 items-start">
-      <span class="text-orange shrink-0 mt-0.5"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8l10 7 10-7"/></svg></span>
-      <div class="text-sm leading-relaxed"><strong class="block text-xs text-gray-400 font-medium mb-0.5">FAX</strong>054-257-1948</div>
-    </div>
-    <div class="flex gap-4 mb-5 items-start">
-      <span class="text-orange shrink-0 mt-0.5"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
-      <div class="text-sm leading-relaxed"><strong class="block text-xs text-gray-400 font-medium mb-0.5">メール</strong><a href="mailto:watanabe-wrecker@wit.ocn.ne.jp" class="text-orange hover:underline break-all">watanabe-wrecker@wit.ocn.ne.jp</a></div>
-    </div>
-    <div class="flex gap-4 mb-8 items-start">
-      <span class="text-orange shrink-0 mt-0.5"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
-      <div class="text-sm leading-relaxed"><strong class="block text-xs text-gray-400 font-medium mb-0.5">営業時間</strong>平日 8:00〜17:00<br/><span class="text-xs text-gray-400">土日祝・時間外はご相談ください</span></div>
-    </div>
-
-    <div class="bg-navy rounded-lg p-7 text-center">
-      <p class="text-slate-400 text-sm mb-4">ご依頼・お見積りはお気軽にお電話ください</p>
-      <a href="tel:054-259-5180" class="inline-flex items-center gap-2 bg-orange hover:bg-orange-hover text-white font-bold text-lg px-8 py-4 rounded transition-colors w-full justify-center">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.07 11.5 19.79 19.79 0 0 1 1 2.18 2 2 0 0 1 3 0h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 7.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 14.92z" transform="translate(1 1)"/></svg>
-        054-259-5180
-      </a>
-      <div class="flex justify-center gap-6 mt-4">
-        <a href="https://www.instagram.com/watanabe_wrecker/" target="_blank" rel="noopener" class="flex items-center gap-2 text-slate-400 hover:text-orange text-sm transition-colors">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Instagram
-        </a>
-        <a href="https://www.tiktok.com/@watanabe_wrecker" target="_blank" rel="noopener" class="flex items-center gap-2 text-slate-400 hover:text-orange text-sm transition-colors">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>TikTok
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <div class="border-t border-gray-200">
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8322.795646568766!2d138.35092042687077!3d34.964517289141135!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x601a4bd45f57e0a3%3A0x6ca270c0b6d755cd!2z44iy5rih6L6644Os44OD44Kr44O8!5e0!3m2!1sja!2sjp!4v1781052611866!5m2!1sja!2sjp"
-      width="100%" height="350" style="border:0; display:block;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="有限会社 渡辺レッカー 地図">
-    </iframe>
-    <div class="bg-gray-50 px-5 py-3 text-xs text-gray-400">
-      静岡県静岡市駿河区向敷地1丁目3番22号 ／
-      <a href="https://maps.google.com/?q=静岡県静岡市駿河区向敷地1282-1" target="_blank" rel="noopener" class="text-orange hover:underline">Google マップで開く →</a>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════ ABOUT ══════════ -->
-<div id="page-about" class="page">
-
-  <div class="bg-navy text-center pt-24 pb-12 px-5">
-    <h2 class="text-white font-black text-3xl md:text-4xl mb-3">会社概要</h2>
-    <p class="text-slate-400 text-sm">有限会社 渡辺レッカーについてご紹介します。</p>
-  </div>
-
-  <div class="max-w-5xl mx-auto px-5 md:px-10 py-12">
-    <p class="text-orange text-xs font-bold tracking-widest uppercase mb-3">Company Profile</p>
-    <h2 class="text-navy font-black text-2xl md:text-3xl mb-8">基本情報</h2>
-
-    <div class="border-t border-gray-200 mb-14">
-      <div class="flex flex-col sm:flex-row border-b border-gray-200">
-        <dt class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50 flex items-start">会社名</dt>
-        <dd class="px-4 py-4 text-sm leading-relaxed">有限会社 渡辺レッカー</dd>
-      </div>
-      <div class="flex flex-col sm:flex-row border-b border-gray-200">
-        <dt class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50">代表取締役</dt>
-        <dd class="px-4 py-4 text-sm leading-relaxed">渡辺 大助</dd>
-      </div>
-      <div class="flex flex-col sm:flex-row border-b border-gray-200">
-        <dt class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50">所在地</dt>
-        <dd class="px-4 py-4 text-sm leading-relaxed">〒421-0101<br/>静岡市駿河区向敷地1丁目3番22号</dd>
-      </div>
-      <div class="flex flex-col sm:flex-row border-b border-gray-200">
-        <dt class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50">電話番号</dt>
-        <dd class="px-4 py-4 text-sm leading-relaxed">054-259-5180</dd>
-      </div>
-      <div class="flex flex-col sm:flex-row border-b border-gray-200">
-        <dt class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50">FAX</dt>
-        <dd class="px-4 py-4 text-sm leading-relaxed">054-257-1948</dd>
-      </div>
-      <div class="flex flex-col sm:flex-row border-b border-gray-200">
-        <dt class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50">設立</dt>
-        <dd class="px-4 py-4 text-sm leading-relaxed">19XX年X月</dd>
-      </div>
-      <div class="flex flex-col sm:flex-row border-b border-gray-200">
-        <dt class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50">資本金</dt>
-        <dd class="px-4 py-4 text-sm leading-relaxed">300万円</dd>
-      </div>
-      <div class="flex flex-col sm:flex-row border-b border-gray-200">
-        <dt class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50">従業員数</dt>
-        <dd class="px-4 py-4 text-sm leading-relaxed">XX名</dd>
-      </div>
-      <div class="flex flex-col sm:flex-row border-b border-gray-200">
-        <dt class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50">営業時間</dt>
-        <dd class="px-4 py-4 text-sm leading-relaxed">平日 8:00〜17:00<br/><span class="text-xs text-gray-400">土日祝・時間外は別途ご相談ください</span></dd>
-      </div>
-      <div class="flex flex-col sm:flex-row border-b border-gray-200">
-        <dt class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50">事業内容</dt>
-        <dd class="px-4 py-4 text-sm leading-loose">クレーン作業全般<br/>重量物搬入・搬出・据付<br/>建設機械のリース・レンタル<br/>レッカー移送業務</dd>
-      </div>
-      <div class="flex flex-col sm:flex-row border-b border-gray-200">
-        <dt class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50">社会保険</dt>
-        <dd class="px-4 py-4 text-sm leading-relaxed">加入</dd>
-      </div>
-      <div class="flex flex-col sm:flex-row border-b border-gray-200">
-        <dt class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50">建設業許可</dt>
-        <dd class="px-4 py-4">
-          <div class="bg-gray-50 border-l-4 border-orange px-3 py-2 text-sm font-medium inline-block">静岡県知事 第025640号</div>
-        </dd>
+    <!-- SP ドロワー -->
+    <div
+      id="sp-menu"
+      class="hidden fixed top-14 left-0 right-0 z-40 bg-navy border-t border-slate-700 md:hidden"
+    >
+      <div class="flex flex-col">
+        <button
+          class="text-slate-300 text-sm font-medium px-6 py-4 text-left border-b border-slate-700 hover:text-orange transition-colors"
+          onclick="
+            showPage('home');
+            closeMenu();
+          "
+        >
+          ホーム
+        </button>
+        <button
+          class="text-slate-300 text-sm font-medium px-6 py-4 text-left border-b border-slate-700 hover:text-orange transition-colors"
+          onclick="
+            showPage('fleet');
+            closeMenu();
+          "
+        >
+          保有機種
+        </button>
+        <button
+          class="text-slate-300 text-sm font-medium px-6 py-4 text-left border-b border-slate-700 hover:text-orange transition-colors"
+          onclick="
+            showPage('about');
+            closeMenu();
+          "
+        >
+          会社概要
+        </button>
+        <button
+          class="text-slate-300 text-sm font-medium px-6 py-4 text-left hover:text-orange transition-colors"
+          onclick="
+            showPage('contact');
+            closeMenu();
+          "
+        >
+          お問い合わせ
+        </button>
       </div>
     </div>
 
-    <p class="text-orange text-xs font-bold tracking-widest uppercase mb-3">Office</p>
-    <h2 class="text-navy font-black text-2xl md:text-3xl mb-6">事業所</h2>
-    <img src="https://placehold.jp/cccccc/888888/960x400.png?text=company+office+photo" alt="事業所外観" class="w-full rounded mb-14 block"/>
-  </div>
-</div>
+    <!-- ══════════ HOME ══════════ -->
+    <div id="page-home" class="page visible">
+      <section
+        class="hero-bg relative min-h-screen flex flex-col justify-center items-center text-center px-5 pt-20 pb-14 overflow-hidden"
+      >
+        <div class="absolute inset-0 bg-navy/75"></div>
+        <div class="relative z-10 w-full max-w-2xl mx-auto">
+          <p
+            class="text-orange text-xs font-bold tracking-widest uppercase mb-5"
+          >
+            有限会社 渡辺レッカー
+          </p>
+          <h1
+            class="text-white font-black leading-tight mb-6 text-3xl md:text-5xl"
+          >
+            重機・クレーン作業は<br class="hidden md:block" />お任せください。
+          </h1>
+          <p
+            class="text-slate-400 text-sm md:text-base leading-loose mx-auto mb-10"
+          >
+            静岡県・静岡市駿河区を中心に、建設現場の揚重作業から重量物の搬入・搬出まで、安全・迅速に対応します。
+          </p>
+          <button
+            onclick="showPage('contact')"
+            class="bg-orange hover:bg-orange-hover text-white font-bold px-8 py-4 rounded transition-colors"
+          >
+            お問い合わせはこちら
+          </button>
+        </div>
+      </section>
 
-<!-- ── FOOTER ── -->
-<footer class="bg-navy-dark">
-  <div class="max-w-5xl mx-auto px-5 md:px-10 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-    <div>
-      <div class="text-white font-bold text-base mb-3">有限会社 渡辺レッカー</div>
-      <p class="text-slate-500 text-xs leading-loose">〒421-0101<br/>静岡県静岡市駿河区向敷地1丁目3番22号<br/>TEL: 054-259-5180</p>
-    </div>
-    <div>
-      <p class="text-slate-400 text-xs font-bold tracking-widest uppercase mb-4">サイトマップ</p>
-      <ul class="flex flex-col gap-2">
-        <li><button onclick="showPage('home')"    class="text-slate-500 hover:text-orange text-sm transition-colors bg-transparent border-none cursor-pointer p-0 text-left">ホーム</button></li>
-        <li><button onclick="showPage('fleet')"   class="text-slate-500 hover:text-orange text-sm transition-colors bg-transparent border-none cursor-pointer p-0 text-left">保有機種</button></li>
-        <li><button onclick="showPage('about')"   class="text-slate-500 hover:text-orange text-sm transition-colors bg-transparent border-none cursor-pointer p-0 text-left">会社概要</button></li>
-        <li><button onclick="showPage('contact')" class="text-slate-500 hover:text-orange text-sm transition-colors bg-transparent border-none cursor-pointer p-0 text-left">お問い合わせ</button></li>
-      </ul>
-    </div>
-    <div>
-      <p class="text-slate-400 text-xs font-bold tracking-widest uppercase mb-4">SNS</p>
-      <div class="flex flex-col gap-3">
-        <a href="https://www.instagram.com/watanabe_wrecker/" target="_blank" rel="noopener" class="flex items-center gap-3 text-slate-500 hover:text-orange text-sm transition-colors">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Instagram
-        </a>
-        <a href="https://www.tiktok.com/@watanabe_wrecker" target="_blank" rel="noopener" class="flex items-center gap-3 text-slate-500 hover:text-orange text-sm transition-colors">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>TikTok
-        </a>
+      <div class="grid grid-cols-1 md:grid-cols-3 border-b border-gray-200">
+        <div
+          class="px-7 py-10 border-b md:border-b-0 md:border-r border-gray-200"
+        >
+          <div class="text-3xl mb-4">🏗️</div>
+          <h3 class="text-navy font-bold text-base mb-2">建設現場の揚重</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            鉄骨・資材の吊り上げから高所への搬入まで、豊富な現場経験でサポートします。
+          </p>
+        </div>
+        <div
+          class="px-7 py-10 border-b md:border-b-0 md:border-r border-gray-200"
+        >
+          <div class="text-3xl mb-4">⚙️</div>
+          <h3 class="text-navy font-bold text-base mb-2">重量物の搬入・搬出</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            工場設備・産業機械など大型重量物の移設・据え付けに対応しています。
+          </p>
+        </div>
+        <div class="px-7 py-10">
+          <div class="text-3xl mb-4">📋</div>
+          <h3 class="text-navy font-bold text-base mb-2">現場調査・ご提案</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            事前の現地調査を行い、安全で最適な作業計画をご提案します。
+          </p>
+        </div>
+      </div>
+
+      <div class="bg-navy text-center py-14 px-5">
+        <p class="text-slate-400 text-sm leading-loose">
+          お急ぎのご依頼もお気軽にご連絡ください
+        </p>
+        <strong class="text-orange text-2xl block my-2"
+          >TEL: 054-259-5180</strong
+        >
+        <p class="text-slate-400 text-sm">
+          受付時間：平日 8:00〜17:00（緊急対応については別途ご相談）
+        </p>
+      </div>
+
+      <div class="max-w-5xl mx-auto px-5 md:px-10 py-16">
+        <p class="text-orange text-xs font-bold tracking-widest uppercase mb-3">
+          About
+        </p>
+        <h2 class="text-navy font-black text-2xl md:text-3xl leading-snug mb-8">
+          地域に根ざした<br />クレーン・重機サービス
+        </h2>
+        <p class="text-gray-500 text-sm leading-loose max-w-2xl">
+          有限会社渡辺レッカーは、静岡県を拠点にクレーン作業・重機オペレーションを専門とする会社です。設立以来、地域の建設・工業現場を支えてきた実績と、安全を最優先にした作業体制でご信頼いただいています。どんな案件も現場確認から丁寧に対応いたします。
+        </p>
       </div>
     </div>
-  </div>
-  <div class="border-t border-slate-800 py-5 text-center text-xs text-slate-600">
-    © 2025 有限会社 渡辺レッカー. All rights reserved.
-  </div>
-</footer>
 
-<script>
-  function showPage(name) {
-    ['home', 'fleet', 'about', 'contact'].forEach(p => {
-      document.getElementById('page-' + p).classList.toggle('visible', p === name);
-      const btn = document.getElementById('nav-' + p);
-      if (btn) btn.classList.toggle('active', p === name);
-    });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-  function toggleMenu() {
-    const menu = document.getElementById('sp-menu');
-    const open  = document.getElementById('icon-open');
-    const close = document.getElementById('icon-close');
-    const isHidden = menu.classList.toggle('hidden');
-    open.classList.toggle('hidden', !isHidden);
-    close.classList.toggle('hidden', isHidden);
-  }
-  function closeMenu() {
-    document.getElementById('sp-menu').classList.add('hidden');
-    document.getElementById('icon-open').classList.remove('hidden');
-    document.getElementById('icon-close').classList.add('hidden');
-  }
-</script>
+    <!-- ══════════ FLEET ══════════ -->
+    <div id="page-fleet" class="page">
+      <div class="bg-navy text-center pt-24 pb-12 px-5">
+        <h2 class="text-white font-black text-3xl md:text-4xl mb-3">
+          保有機種一覧
+        </h2>
+        <p class="text-slate-400 text-sm">
+          各機種のスペックをご確認のうえ、ご要望に合った機種をお選びください。
+        </p>
+      </div>
 
-</body>
+      <div class="max-w-5xl mx-auto flex flex-col gap-px bg-gray-200">
+        <!-- カードテンプレート: SP=縦積み, PC=左右2列 -->
+        <!-- 60t -->
+        <div
+          class="bg-white hover:bg-orange-50 transition-colors px-5 md:px-10 py-5 flex flex-col md:grid md:grid-cols-[180px_1fr] gap-4 md:gap-10 items-start"
+        >
+          <div class="shrink-0">
+            <span
+              class="inline-block text-orange border border-orange text-xs font-bold tracking-wider px-2 py-0.5 rounded-sm mb-3"
+              >ラフテレーンクレーン</span
+            >
+            <h3 class="text-navy font-bold text-lg mb-1">60tクレーン</h3>
+            <p class="text-gray-400 text-xs">××年式</p>
+          </div>
+          <table class="spec-table w-full text-sm border-collapse">
+            <tr>
+              <td class="text-gray-400 w-28 py-1.5 pr-4 font-medium">
+                最大吊上荷重
+              </td>
+              <td class="font-bold text-gray-800 py-1.5">60.0t</td>
+            </tr>
+            <tr>
+              <td class="text-gray-400 py-1.5 pr-4 font-medium">
+                最大作業半径
+              </td>
+              <td class="font-bold text-gray-800 py-1.5">XX m</td>
+            </tr>
+            <tr>
+              <td class="text-gray-400 py-1.5 pr-4 font-medium">ブーム長</td>
+              <td class="font-bold text-gray-800 py-1.5">XX〜XX m</td>
+            </tr>
+            <tr>
+              <td class="text-gray-400 py-1.5 pr-4 font-medium">
+                アウトリガー
+              </td>
+              <td class="font-bold text-gray-800 py-1.5">最大張出 X.X m</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- 35t -->
+        <div
+          class="bg-white hover:bg-orange-50 transition-colors px-5 md:px-10 py-5 flex flex-col md:grid md:grid-cols-[180px_1fr] gap-4 md:gap-10 items-start"
+        >
+          <div class="shrink-0">
+            <span
+              class="inline-block text-orange border border-orange text-xs font-bold tracking-wider px-2 py-0.5 rounded-sm mb-3"
+              >ラフテレーンクレーン</span
+            >
+            <h3 class="text-navy font-bold text-lg mb-1">35tクレーン</h3>
+            <p class="text-gray-400 text-xs">××年式</p>
+          </div>
+          <table class="spec-table w-full text-sm border-collapse">
+            <tr>
+              <td class="text-gray-400 w-28 py-1.5 pr-4 font-medium">
+                最大吊上荷重
+              </td>
+              <td class="font-bold text-gray-800 py-1.5">35.0t</td>
+            </tr>
+            <tr>
+              <td class="text-gray-400 py-1.5 pr-4 font-medium">
+                最大作業半径
+              </td>
+              <td class="font-bold text-gray-800 py-1.5">XX m</td>
+            </tr>
+            <tr>
+              <td class="text-gray-400 py-1.5 pr-4 font-medium">ブーム長</td>
+              <td class="font-bold text-gray-800 py-1.5">XX〜XX m</td>
+            </tr>
+            <tr>
+              <td class="text-gray-400 py-1.5 pr-4 font-medium">
+                アウトリガー
+              </td>
+              <td class="font-bold text-gray-800 py-1.5">最大張出 X.X m</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- 20t -->
+        <div
+          class="bg-white hover:bg-orange-50 transition-colors px-5 md:px-10 py-5 flex flex-col md:grid md:grid-cols-[180px_1fr] gap-4 md:gap-10 items-start"
+        >
+          <div class="shrink-0">
+            <span
+              class="inline-block text-orange border border-orange text-xs font-bold tracking-wider px-2 py-0.5 rounded-sm mb-3"
+              >ラフテレーンクレーン</span
+            >
+            <h3 class="text-navy font-bold text-lg mb-1">20tクレーン</h3>
+            <p class="text-gray-400 text-xs">××年式</p>
+          </div>
+          <table class="spec-table w-full text-sm border-collapse">
+            <tr>
+              <td class="text-gray-400 w-28 py-1.5 pr-4 font-medium">
+                最大吊上荷重
+              </td>
+              <td class="font-bold text-gray-800 py-1.5">20.0t</td>
+            </tr>
+            <tr>
+              <td class="text-gray-400 py-1.5 pr-4 font-medium">
+                最大作業半径
+              </td>
+              <td class="font-bold text-gray-800 py-1.5">XX m</td>
+            </tr>
+            <tr>
+              <td class="text-gray-400 py-1.5 pr-4 font-medium">ブーム長</td>
+              <td class="font-bold text-gray-800 py-1.5">XX〜XX m</td>
+            </tr>
+            <tr>
+              <td class="text-gray-400 py-1.5 pr-4 font-medium">
+                アウトリガー
+              </td>
+              <td class="font-bold text-gray-800 py-1.5">最大張出 X.X m</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- 13t -->
+        <div
+          class="bg-white hover:bg-orange-50 transition-colors px-5 md:px-10 py-5 flex flex-col md:grid md:grid-cols-[180px_1fr] gap-4 md:gap-10 items-start"
+        >
+          <div class="shrink-0">
+            <span
+              class="inline-block text-orange border border-orange text-xs font-bold tracking-wider px-2 py-0.5 rounded-sm mb-3"
+              >ラフテレーンクレーン</span
+            >
+            <h3 class="text-navy font-bold text-lg mb-1">13tクレーン</h3>
+            <p class="text-gray-400 text-xs">××年式</p>
+          </div>
+          <table class="spec-table w-full text-sm border-collapse">
+            <tr>
+              <td class="text-gray-400 w-28 py-1.5 pr-4 font-medium">
+                最大吊上荷重
+              </td>
+              <td class="font-bold text-gray-800 py-1.5">13.0t</td>
+            </tr>
+            <tr>
+              <td class="text-gray-400 py-1.5 pr-4 font-medium">
+                最大作業半径
+              </td>
+              <td class="font-bold text-gray-800 py-1.5">XX m</td>
+            </tr>
+            <tr>
+              <td class="text-gray-400 py-1.5 pr-4 font-medium">ブーム長</td>
+              <td class="font-bold text-gray-800 py-1.5">XX〜XX m</td>
+            </tr>
+            <tr>
+              <td class="text-gray-400 py-1.5 pr-4 font-medium">
+                アウトリガー
+              </td>
+              <td class="font-bold text-gray-800 py-1.5">最大張出 X.X m</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div
+        class="bg-gray-50 text-center py-8 px-5 text-sm text-gray-400 leading-loose"
+      >
+        ※ スペックは代表値です。詳細は機種により異なります。<br />
+        作業内容・現場条件によって使用機種をご提案しますので、まずはお問い合わせください。
+      </div>
+    </div>
+
+    <!-- ══════════ CONTACT ══════════ -->
+    <div id="page-contact" class="page">
+      <div class="bg-navy text-center pt-24 pb-12 px-5">
+        <h2 class="text-white font-black text-3xl md:text-4xl mb-3">
+          お問い合わせ
+        </h2>
+        <p class="text-slate-400 text-sm">
+          作業のご依頼・お見積りのご相談はこちらからどうぞ。
+        </p>
+      </div>
+
+      <div class="max-w-lg mx-auto px-5 py-12">
+        <h3
+          class="text-navy font-bold text-sm mb-5 pb-3 border-b-2 border-orange"
+        >
+          会社情報・ご連絡先
+        </h3>
+
+        <div class="flex gap-4 mb-5 items-start">
+          <span class="text-orange shrink-0 mt-0.5"
+            ><svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="2" y="7" width="20" height="14" rx="2" />
+              <path d="M16 3H8a2 2 0 0 0-2 2v2h12V5a2 2 0 0 0-2-2z" /></svg
+          ></span>
+          <div class="text-sm leading-relaxed">
+            <strong class="block text-xs text-gray-400 font-medium mb-0.5"
+              >会社名</strong
+            >有限会社 渡辺レッカー
+          </div>
+        </div>
+        <div class="flex gap-4 mb-5 items-start">
+          <span class="text-orange shrink-0 mt-0.5"
+            ><svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
+              />
+              <circle cx="12" cy="9" r="2.5" /></svg
+          ></span>
+          <div class="text-sm leading-relaxed">
+            <strong class="block text-xs text-gray-400 font-medium mb-0.5"
+              >所在地</strong
+            >〒421-0101<br />静岡県静岡市駿河区向敷地1丁目3番22号
+          </div>
+        </div>
+        <div class="flex gap-4 mb-5 items-start">
+          <span class="text-orange shrink-0 mt-0.5"
+            ><svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.07 11.5 19.79 19.79 0 0 1 1 2.18 2 2 0 0 1 3 0h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 7.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 14.92z"
+                transform="translate(1 1)"
+              /></svg
+          ></span>
+          <div class="text-sm leading-relaxed">
+            <strong class="block text-xs text-gray-400 font-medium mb-0.5"
+              >電話番号</strong
+            >054-259-5180
+          </div>
+        </div>
+        <div class="flex gap-4 mb-5 items-start">
+          <span class="text-orange shrink-0 mt-0.5"
+            ><svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <path d="M2 8l10 7 10-7" /></svg
+          ></span>
+          <div class="text-sm leading-relaxed">
+            <strong class="block text-xs text-gray-400 font-medium mb-0.5"
+              >FAX</strong
+            >054-257-1948
+          </div>
+        </div>
+        <div class="flex gap-4 mb-5 items-start">
+          <span class="text-orange shrink-0 mt-0.5"
+            ><svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              />
+              <polyline points="22,6 12,13 2,6" /></svg
+          ></span>
+          <div class="text-sm leading-relaxed">
+            <strong class="block text-xs text-gray-400 font-medium mb-0.5"
+              >メール</strong
+            ><a
+              href="mailto:watanabe-wrecker@wit.ocn.ne.jp"
+              class="text-orange hover:underline break-all"
+              >watanabe-wrecker@wit.ocn.ne.jp</a
+            >
+          </div>
+        </div>
+        <div class="flex gap-4 mb-8 items-start">
+          <span class="text-orange shrink-0 mt-0.5"
+            ><svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" /></svg
+          ></span>
+          <div class="text-sm leading-relaxed">
+            <strong class="block text-xs text-gray-400 font-medium mb-0.5"
+              >営業時間</strong
+            >平日 8:00〜17:00<br /><span class="text-xs text-gray-400"
+              >土日祝・時間外はご相談ください</span
+            >
+          </div>
+        </div>
+
+        <div class="bg-navy rounded-lg p-7 text-center">
+          <p class="text-slate-400 text-sm mb-4">
+            ご依頼・お見積りはお気軽にお電話ください
+          </p>
+          <a
+            href="tel:054-259-5180"
+            class="inline-flex items-center gap-2 bg-orange hover:bg-orange-hover text-white font-bold text-lg px-8 py-4 rounded transition-colors w-full justify-center"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.07 11.5 19.79 19.79 0 0 1 1 2.18 2 2 0 0 1 3 0h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 7.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 14.92z"
+                transform="translate(1 1)"
+              />
+            </svg>
+            054-259-5180
+          </a>
+          <div class="flex justify-center gap-6 mt-4">
+            <a
+              href="https://www.instagram.com/watanabe_wrecker/"
+              target="_blank"
+              rel="noopener"
+              class="flex items-center gap-2 text-slate-400 hover:text-orange text-sm transition-colors"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle
+                  cx="17.5"
+                  cy="6.5"
+                  r="1"
+                  fill="currentColor"
+                  stroke="none"
+                /></svg
+              >Instagram
+            </a>
+            <a
+              href="https://www.tiktok.com/@watanabe_wrecker"
+              target="_blank"
+              rel="noopener"
+              class="flex items-center gap-2 text-slate-400 hover:text-orange text-sm transition-colors"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" /></svg
+              >TikTok
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-200">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8322.795646568766!2d138.35092042687077!3d34.964517289141135!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x601a4bd45f57e0a3%3A0x6ca270c0b6d755cd!2z44iy5rih6L6644Os44OD44Kr44O8!5e0!3m2!1sja!2sjp!4v1781052611866!5m2!1sja!2sjp"
+          width="100%"
+          height="350"
+          style="border: 0; display: block"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="有限会社 渡辺レッカー 地図"
+        >
+        </iframe>
+        <div class="bg-gray-50 px-5 py-3 text-xs text-gray-400">
+          静岡県静岡市駿河区向敷地1丁目3番22号 ／
+          <a
+            href="https://maps.google.com/?q=静岡県静岡市駿河区向敷地1282-1"
+            target="_blank"
+            rel="noopener"
+            class="text-orange hover:underline"
+            >Google マップで開く →</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ ABOUT ══════════ -->
+    <div id="page-about" class="page">
+      <div class="bg-navy text-center pt-24 pb-12 px-5">
+        <h2 class="text-white font-black text-3xl md:text-4xl mb-3">
+          会社概要
+        </h2>
+        <p class="text-slate-400 text-sm">
+          有限会社 渡辺レッカーについてご紹介します。
+        </p>
+      </div>
+
+      <div class="max-w-5xl mx-auto px-5 md:px-10 py-12">
+        <p class="text-orange text-xs font-bold tracking-widest uppercase mb-3">
+          Company Profile
+        </p>
+        <h2 class="text-navy font-black text-2xl md:text-3xl mb-8">基本情報</h2>
+
+        <div class="border-t border-gray-200 mb-14">
+          <div class="flex flex-col sm:flex-row border-b border-gray-200">
+            <dt
+              class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50 flex items-start"
+            >
+              会社名
+            </dt>
+            <dd class="px-4 py-4 text-sm leading-relaxed">
+              有限会社 渡辺レッカー
+            </dd>
+          </div>
+          <div class="flex flex-col sm:flex-row border-b border-gray-200">
+            <dt
+              class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50"
+            >
+              代表取締役
+            </dt>
+            <dd class="px-4 py-4 text-sm leading-relaxed">渡辺 大助</dd>
+          </div>
+          <div class="flex flex-col sm:flex-row border-b border-gray-200">
+            <dt
+              class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50"
+            >
+              所在地
+            </dt>
+            <dd class="px-4 py-4 text-sm leading-relaxed">
+              〒421-0101<br />静岡市駿河区向敷地1丁目3番22号
+            </dd>
+          </div>
+          <div class="flex flex-col sm:flex-row border-b border-gray-200">
+            <dt
+              class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50"
+            >
+              電話番号
+            </dt>
+            <dd class="px-4 py-4 text-sm leading-relaxed">054-259-5180</dd>
+          </div>
+          <div class="flex flex-col sm:flex-row border-b border-gray-200">
+            <dt
+              class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50"
+            >
+              FAX
+            </dt>
+            <dd class="px-4 py-4 text-sm leading-relaxed">054-257-1948</dd>
+          </div>
+          <div class="flex flex-col sm:flex-row border-b border-gray-200">
+            <dt
+              class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50"
+            >
+              設立
+            </dt>
+            <dd class="px-4 py-4 text-sm leading-relaxed">19XX年X月</dd>
+          </div>
+          <div class="flex flex-col sm:flex-row border-b border-gray-200">
+            <dt
+              class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50"
+            >
+              資本金
+            </dt>
+            <dd class="px-4 py-4 text-sm leading-relaxed">300万円</dd>
+          </div>
+          <div class="flex flex-col sm:flex-row border-b border-gray-200">
+            <dt
+              class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50"
+            >
+              従業員数
+            </dt>
+            <dd class="px-4 py-4 text-sm leading-relaxed">XX名</dd>
+          </div>
+          <div class="flex flex-col sm:flex-row border-b border-gray-200">
+            <dt
+              class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50"
+            >
+              営業時間
+            </dt>
+            <dd class="px-4 py-4 text-sm leading-relaxed">
+              平日 8:00〜17:00<br /><span class="text-xs text-gray-400"
+                >土日祝・時間外は別途ご相談ください</span
+              >
+            </dd>
+          </div>
+          <div class="flex flex-col sm:flex-row border-b border-gray-200">
+            <dt
+              class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50"
+            >
+              事業内容
+            </dt>
+            <dd class="px-4 py-4 text-sm leading-loose">
+              クレーン作業全般<br />重量物搬入・搬出・据付<br />建設機械のリース・レンタル<br />レッカー移送業務
+            </dd>
+          </div>
+          <div class="flex flex-col sm:flex-row border-b border-gray-200">
+            <dt
+              class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50"
+            >
+              社会保険
+            </dt>
+            <dd class="px-4 py-4 text-sm leading-relaxed">加入</dd>
+          </div>
+          <div class="flex flex-col sm:flex-row border-b border-gray-200">
+            <dt
+              class="w-full sm:w-36 shrink-0 px-4 py-4 text-xs text-gray-400 font-medium bg-gray-50"
+            >
+              建設業許可
+            </dt>
+            <dd class="px-4 py-4">
+              <div
+                class="bg-gray-50 border-l-4 border-orange px-3 py-2 text-sm font-medium inline-block"
+              >
+                静岡県知事 第025640号
+              </div>
+            </dd>
+          </div>
+        </div>
+
+        <p class="text-orange text-xs font-bold tracking-widest uppercase mb-3">
+          Office
+        </p>
+        <h2 class="text-navy font-black text-2xl md:text-3xl mb-6">事業所</h2>
+        <img
+          src="https://placehold.jp/cccccc/888888/960x400.png?text=company+office+photo"
+          alt="事業所外観"
+          class="w-full rounded mb-14 block"
+        />
+      </div>
+    </div>
+
+    <!-- ── FOOTER ── -->
+    <footer class="bg-navy-dark">
+      <div
+        class="max-w-5xl mx-auto px-5 md:px-10 py-12 grid grid-cols-1 md:grid-cols-3 gap-8"
+      >
+        <div>
+          <div class="text-white font-bold text-base mb-3">
+            有限会社 渡辺レッカー
+          </div>
+          <p class="text-slate-500 text-xs leading-loose">
+            〒421-0101<br />静岡県静岡市駿河区向敷地1丁目3番22号<br />TEL:
+            054-259-5180
+          </p>
+        </div>
+        <div>
+          <p
+            class="text-slate-400 text-xs font-bold tracking-widest uppercase mb-4"
+          >
+            サイトマップ
+          </p>
+          <ul class="flex flex-col gap-2">
+            <li>
+              <button
+                onclick="showPage('home')"
+                class="text-slate-500 hover:text-orange text-sm transition-colors bg-transparent border-none cursor-pointer p-0 text-left"
+              >
+                ホーム
+              </button>
+            </li>
+            <li>
+              <button
+                onclick="showPage('fleet')"
+                class="text-slate-500 hover:text-orange text-sm transition-colors bg-transparent border-none cursor-pointer p-0 text-left"
+              >
+                保有機種
+              </button>
+            </li>
+            <li>
+              <button
+                onclick="showPage('about')"
+                class="text-slate-500 hover:text-orange text-sm transition-colors bg-transparent border-none cursor-pointer p-0 text-left"
+              >
+                会社概要
+              </button>
+            </li>
+            <li>
+              <button
+                onclick="showPage('contact')"
+                class="text-slate-500 hover:text-orange text-sm transition-colors bg-transparent border-none cursor-pointer p-0 text-left"
+              >
+                お問い合わせ
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <p
+            class="text-slate-400 text-xs font-bold tracking-widest uppercase mb-4"
+          >
+            SNS
+          </p>
+          <div class="flex flex-col gap-3">
+            <a
+              href="https://www.instagram.com/watanabe_wrecker/"
+              target="_blank"
+              rel="noopener"
+              class="flex items-center gap-3 text-slate-500 hover:text-orange text-sm transition-colors"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle
+                  cx="17.5"
+                  cy="6.5"
+                  r="1"
+                  fill="currentColor"
+                  stroke="none"
+                /></svg
+              >Instagram
+            </a>
+            <a
+              href="https://www.tiktok.com/@watanabe_wrecker"
+              target="_blank"
+              rel="noopener"
+              class="flex items-center gap-3 text-slate-500 hover:text-orange text-sm transition-colors"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" /></svg
+              >TikTok
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        class="border-t border-slate-800 py-5 text-center text-xs text-slate-600"
+      >
+        © 2025 有限会社 渡辺レッカー. All rights reserved.
+      </div>
+    </footer>
+
+    <script>
+      function showPage(name) {
+        ["home", "fleet", "about", "contact"].forEach((p) => {
+          document
+            .getElementById("page-" + p)
+            .classList.toggle("visible", p === name);
+          const btn = document.getElementById("nav-" + p);
+          if (btn) btn.classList.toggle("active", p === name);
+        });
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      function toggleMenu() {
+        const menu = document.getElementById("sp-menu");
+        const open = document.getElementById("icon-open");
+        const close = document.getElementById("icon-close");
+        const isHidden = menu.classList.toggle("hidden");
+        open.classList.toggle("hidden", !isHidden);
+        close.classList.toggle("hidden", isHidden);
+      }
+      function closeMenu() {
+        document.getElementById("sp-menu").classList.add("hidden");
+        document.getElementById("icon-open").classList.remove("hidden");
+        document.getElementById("icon-close").classList.add("hidden");
+      }
+    </script>
+  </body>
 </html>
